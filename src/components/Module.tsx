@@ -40,23 +40,21 @@ export function MyComponent(userprops: User) {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			console.log("ciclo");
-
 			try {
 				const response = await fetch(
 					"http://bkyz2-fmaaa-aaaaa-qaaaq-cai.localhost:8000/sensorData/get"
 				);
 				if (response.ok) {
 					const jsonData: Data[] = await response.json();
-					let listFilterJsonData: Data[] = [];
-					jsonData.forEach((element) => {
+					const listFilterJsonData: Data[] = [];
+					for (let i = 0; i < jsonData.length; i++) {
 						if (
-							user.modules.includes(element.moduleId) &&
-							element.client === user.userid
+							user.modules.includes(jsonData[i].moduleId) &&
+							jsonData[i].client === user.userid
 						) {
-							listFilterJsonData.push(element);
+							listFilterJsonData.push(jsonData[i]);
 						}
-					});
+					}
 
 					setFilteredData(listFilterJsonData);
 				} else {
@@ -74,7 +72,7 @@ export function MyComponent(userprops: User) {
 		const intervalId = setInterval(fetchData, 1000); // Fetch data every 4 seconds
 
 		return () => {
-			clearInterval(intervalId); // Clean up the interval when the component unmounts
+			clearInterval(intervalId);
 		};
 	}, []);
 

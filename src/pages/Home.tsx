@@ -34,7 +34,6 @@ const Home: React.FC = () => {
 				modules: data.map((item) => Number(item[1])),
 			};
 
-			console.log(user);
 			setDataprocessed(user);
 		}
 	}, []);
