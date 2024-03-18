@@ -38,7 +38,9 @@ export function MyComponent(userprops: User) {
 
 	const user = userprops;
 
+
 	useEffect(() => {
+		console.log("user",user)
 		const fetchData = async () => {
 			try {
 				const response = await fetch(
@@ -48,7 +50,10 @@ export function MyComponent(userprops: User) {
 					const jsonData: Data[] = await response.json();
 					const listFilterJsonData: Data[] = [];
 					for (let i = 0; i < jsonData.length; i++) {
-						if (
+	
+	
+	
+	q					if (
 							user.modules.includes(jsonData[i].moduleId) &&
 							jsonData[i].client === user.userid
 						) {

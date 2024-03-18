@@ -20,7 +20,7 @@ const Home: React.FC = () => {
 	const location = useLocation();
 	const params = new URLSearchParams(location.search);
 
-	const data = JSON.parse(params.get("data") || "");
+	const data: User = JSON.parse(params.get("data") || "");
 
 	const [dataProcessed, setDataprocessed] = useState<User>({
 		userid: 0,
@@ -33,10 +33,28 @@ const Home: React.FC = () => {
 				userid: Number(data[0][0]),
 				modules: data.map((item) => Number(item[1])),
 			};
-
 			setDataprocessed(user);
 		}
 	}, []);
+
+	if (dataProcessed.userid === 0 && dataProcessed.modules.length === 0) {
+		return (
+			<IonPage>
+				<IonHeader>
+					<IonToolbar>
+						<IonTitle>Blank</IonTitle>
+					</IonToolbar>
+				</IonHeader>
+				<IonContent fullscreen>
+					<IonHeader collapse="condense">
+						<IonToolbar>
+							<IonTitle size="large">Blank</IonTitle>
+						</IonToolbar>
+					</IonHeader>
+				</IonContent>
+			</IonPage>
+		);
+	}
 
 	return (
 		<IonPage>
@@ -52,10 +70,7 @@ const Home: React.FC = () => {
 					</IonToolbar>
 				</IonHeader>
 
-				<MyComponent
-					modules={dataProcessed.modules}
-					userid={dataProcessed.userid}
-				/>
+				<MyComponent {...dataProcessed} />
 			</IonContent>
 		</IonPage>
 	);
